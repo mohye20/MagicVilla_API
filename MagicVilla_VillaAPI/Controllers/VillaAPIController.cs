@@ -10,6 +10,13 @@ namespace MagicVilla_VillaAPI.Controllers
 	[ApiController]
 	public class VillaAPIController : ControllerBase
 	{
+		private readonly ILogger<VillaAPIController> _logger;
+
+		public VillaAPIController(ILogger<VillaAPIController> logger)
+		{
+			_logger = logger;
+		}
+
 		[HttpGet]
 		public IEnumerable<VillaDTO> GetVillas()
 		{
@@ -24,6 +31,7 @@ namespace MagicVilla_VillaAPI.Controllers
 		{
 			if (Id == 0)
 			{
+				_logger.LogError($"Get Villa Error With Id {Id}");
 				return BadRequest();
 			}
 
