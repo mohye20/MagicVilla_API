@@ -15,21 +15,21 @@ namespace MagicVilla_VillaAPI.Repostiory
 			_db = db;
 		}
 
-		public async Task Create(Villa Entity)
+		public async Task CreateAsync(Villa Entity)
 		{
 			await _db.Villas.AddAsync(Entity);
-			await Save();
+			await SaveAsync();
 		}
 
-		public async Task<Villa> Get(Expression<Func<Villa, bool>> Filter = null, bool Tracked = true)
+		public async Task<Villa> GetAsync(Expression<Func<Villa, bool>> Filter = null, bool Tracked = true)
 		{
 			IQueryable<Villa> Query = _db.Villas;
-			if(!Tracked)
-			{ 
-				Query = Query.AsNoTracking();	
+			if (!Tracked)
+			{
+				Query = Query.AsNoTracking();
 			}
 
-			if(Filter is not null)
+			if (Filter is not null)
 			{
 				Query = Query.Where(Filter);
 			}
@@ -37,27 +37,33 @@ namespace MagicVilla_VillaAPI.Repostiory
 			return await Query.FirstOrDefaultAsync();
 		}
 
-		public async Task<List<Villa>> GetAll(Expression<Func<Villa, bool>> Filter = null)
+		public async Task<List<Villa>> GetAllAsync(Expression<Func<Villa, bool>> Filter = null)
 		{
-				IQueryable<Villa> query = _db.Villas;
+			IQueryable<Villa> query = _db.Villas;
 			if (Filter is not null)
 			{
-				query = query.Where(Filter);	
-
+				query = query.Where(Filter);
 			}
 
 			return await query.ToListAsync();
 		}
 
-		public async Task Remove(Villa Entity)
+		public async Task RemoveAsync(Villa Entity)
 		{
 			_db.Villas.Remove(Entity);
-			await Save();
+			await SaveAsync();
 		}
 
-		public async Task Save()
+		public async Task SaveAsync()
 		{
 			await _db.SaveChangesAsync();
+		}
+
+		public async Task UpdateAsync(Villa Entity)
+		{
+			_db.Villas.Update(Entity);
+
+			await SaveAsync();
 		}
 	}
 }
