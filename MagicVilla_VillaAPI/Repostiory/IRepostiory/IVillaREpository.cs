@@ -3,11 +3,11 @@ using System.Linq.Expressions;
 
 namespace MagicVilla_VillaAPI.Repostiory.IRepostiory
 {
-	public interface IVillaREpository
+	public interface IVillaRepository
 	{
-		Task<List<Villa>> GetAll(Expression<Func<Villa>> Filter = null);
+		Task<List<Villa>> GetAll(Expression<Func<Villa , bool>> Filter = null);
 
-		Task<Villa> Get(Expression<Func<Villa>> Filter = null);
+		Task<Villa> Get(Expression<Func<Villa,bool>> Filter = null , bool Tracked = true);
 
 		Task Create(Villa Entity);
 
