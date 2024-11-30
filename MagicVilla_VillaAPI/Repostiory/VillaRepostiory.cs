@@ -6,64 +6,25 @@ using System.Linq.Expressions;
 
 namespace MagicVilla_VillaAPI.Repostiory
 {
-	public class VillaRepostiory : IVillaRepository
+	public class VillaRepostiory :Repository<Villa> , IVillaRepository
 	{
 		private readonly ApplicationDbContext _db;
 
-		public VillaRepostiory(ApplicationDbContext db)
+		public VillaRepostiory(ApplicationDbContext db) : base(db)
 		{
 			_db = db;
 		}
 
-		public async Task CreateAsync(Villa Entity)
+	
+
+		public async Task<Villa> UpdateAsync(Villa Entity)
 		{
-			await _db.Villas.AddAsync(Entity);
-			await SaveAsync();
-		}
 
-		public async Task<Villa> GetAsync(Expression<Func<Villa, bool>> Filter = null, bool Tracked = true)
-		{
-			IQueryable<Villa> Query = _db.Villas;
-			if (!Tracked)
-			{
-				Query = Query.AsNoTracking();
-			}
-
-			if (Filter is not null)
-			{
-				Query = Query.Where(Filter);
-			}
-
-			return await Query.FirstOrDefaultAsync();
-		}
-
-		public async Task<List<Villa>> GetAllAsync(Expression<Func<Villa, bool>> Filter = null)
-		{
-			IQueryable<Villa> query = _db.Villas;
-			if (Filter is not null)
-			{
-				query = query.Where(Filter);
-			}
-
-			return await query.ToListAsync();
-		}
-
-		public async Task RemoveAsync(Villa Entity)
-		{
-			_db.Villas.Remove(Entity);
-			await SaveAsync();
-		}
-
-		public async Task SaveAsync()
-		{
-			await _db.SaveChangesAsync();
-		}
-
-		public async Task UpdateAsync(Villa Entity)
-		{
+			Entity.UpdateDate = DateTime.Now;
 			_db.Villas.Update(Entity);
 
-			await SaveAsync();
+			await _db.SaveChangesAsync();
+			return Entity;
 		}
 	}
 }

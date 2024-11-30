@@ -1,20 +1,15 @@
-﻿using MagicVilla_VillaAPI.Models;
+﻿using MagicT_TAPI.Repostiory.IRepostiory;
+using MagicVilla_VillaAPI.Models;
 using System.Linq.Expressions;
 
 namespace MagicVilla_VillaAPI.Repostiory.IRepostiory
 {
-	public interface IVillaRepository
+	public interface IVillaRepository : IRepository<Villa>
 	{
-		Task<List<Villa>> GetAllAsync(Expression<Func<Villa , bool>> Filter = null);
+		
 
-		Task<Villa> GetAsync(Expression<Func<Villa,bool>> Filter = null , bool Tracked = true);
+		Task<Villa> UpdateAsync(Villa Entity);
 
-		Task CreateAsync(Villa Entity);
-
-		Task RemoveAsync(Villa Entity);
-
-		Task UpdateAsync(Villa Entity);
-
-		Task SaveAsync();
+		
 	}
 }
