@@ -16,13 +16,16 @@ public class VillaNumberApiController : ControllerBase
     private readonly APIResponse _response;
     private readonly IMapper _mapper;
     private readonly IVillaNumbersRepository _dbVillaNumbers;
+    private readonly IVillaRepository _dbVilla;
 
 
-    public VillaNumberApiController(APIResponse Response, IMapper mapper, IVillaNumbersRepository dbVillaNumbers)
+    public VillaNumberApiController(APIResponse Response, IMapper mapper, IVillaNumbersRepository dbVillaNumbers,
+        IVillaRepository dbVilla)
     {
         _response = Response;
         _mapper = mapper;
         _dbVillaNumbers = dbVillaNumbers;
+        _dbVilla = dbVilla;
     }
 
     [HttpGet]
@@ -65,6 +68,7 @@ public class VillaNumberApiController : ControllerBase
             if (villa is null)
             {
                 _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.NotFound;
                 return NotFound(_response);
             }
 
@@ -93,6 +97,12 @@ public class VillaNumberApiController : ControllerBase
             if (await _dbVillaNumbers.GetAsync(U => U.VillaNo == villaNumberCreateDto.VillaNo) is not null)
             {
                 ModelState.AddModelError(string.Empty, "Villa number already exists");
+                return BadRequest(ModelState);
+            }
+
+            if (await _dbVilla.GetAsync(U => U.Id == villaNumberCreateDto.VillaId) is null)
+            {
+                ModelState.AddModelError(string.Empty,"Villa Id is Invalid!");
                 return BadRequest(ModelState);
             }
 
@@ -162,6 +172,12 @@ public class VillaNumberApiController : ControllerBase
             if (villaNumberUpdateDto is null || id != villaNumberUpdateDto.VillaNo)
             {
                 return BadRequest();
+            }
+
+            if (await _dbVilla.GetAsync(U => U.Id == villaNumberUpdateDto.VillaId) is null)
+            {
+                ModelState.AddModelError(string.Empty,"Villa Id is Invalid!");
+                return BadRequest(ModelState);
             }
 
             var villaNumber = _mapper.Map<VillaNumber>(villaNumberUpdateDto);
