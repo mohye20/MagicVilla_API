@@ -52,6 +52,7 @@ public class VillaController : Controller
         return NotFound();
     }
 
+    [HttpPost]
     public async Task<IActionResult> UpdateVilla(VillaUpdateDTO model)
     {
         if (ModelState.IsValid)
@@ -79,4 +80,6 @@ public class VillaController : Controller
 
         return View(list);
     }
+    
+    
 }

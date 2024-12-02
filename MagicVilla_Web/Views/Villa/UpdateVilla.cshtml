@@ -1,18 +1,90 @@
-@model dynamic
+@model MagicVilla_Web.Models.Dto.VillaUpdateDTO
 
-@{
-    Layout = null;
+<form asp-action="UpdateVilla" class="form-group">
+    <br/>
+    <div class="container border p-3 form-control">
+        <h1 class="text-primary">Update Villa</h1>
+        
+        <input hidden asp-for="Id"/>
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-2">
+                <label asp-for="Name" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-2">
+                <label asp-for="Rate" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="Rate" class="form-control"/>
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-2">
+                <label asp-for="Details" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="Details" class="form-control"/>
+                <span asp-validation-for="Details" class="text-danger"></span>
+            </div>
+
+
+        
+
+            <div class="col-2">
+                <label asp-for="ImageURL" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="ImageURL" class="form-control"/>
+                <span asp-validation-for="ImageURL" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-2">
+                <label asp-for="Occupancy" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="Occupancy" class="form-control"/>
+                <span asp-validation-for="Occupancy" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-2">
+                <label asp-for="Sqft" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="Sqft" class="form-control"/>
+                <span asp-validation-for="Sqft" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-2">
+                <label asp-for="Amenity" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <textarea asp-for="Amenity" class="form-control"></textarea>
+                <span asp-validation-for="Amenity" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-5 offset-2">
+                <a asp-action="IndexVilla" asp-controller="Villa" class="btn-primary btn form-control">Back To List</a>
+            </div>
+            <div class="col-5 offset-2">
+                <input type="submit" value="Update" class="btn-success btn form-control"/>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-      
-</div>
-</body>
-</html>
