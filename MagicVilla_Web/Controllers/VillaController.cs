@@ -18,6 +18,27 @@ public class VillaController : Controller
         _mapper = Mapper;
     }
 
+    public async Task<IActionResult> CreateVilla()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateVilla(VillaCreateDTO model)
+    {
+        if (ModelState.IsValid)
+        {
+            var reponse = await _villaServices.CreateAsync<APIResponse>(model);
+            if (reponse is not null && reponse.IsSuccess)
+            {
+                return RedirectToAction(nameof(IndexVilla));
+            }
+        }
+
+        return View(model);
+    }
+
     // GET
     public async Task<IActionResult> IndexVilla()
     {
