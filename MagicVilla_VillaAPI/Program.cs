@@ -1,6 +1,7 @@
 using MagicVilla_VillaAPI;
 using MagicVilla_VillaAPI.Data;
 using MagicVilla_VillaAPI.Logging;
+using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Repostiory;
 using MagicVilla_VillaAPI.Repostiory.IRepostiory;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IVillaRepository, VillaRepostiory>();
+builder.Services.AddScoped<IVillaNumbersRepository, VillaNumbersRepository>();
+builder.Services.AddScoped<APIResponse>();
 
 // Add services to the container.
 
