@@ -1,4 +1,6 @@
 using MagicVilla_Web;
+using MagicVilla_Web.Services;
+using MagicVilla_Web.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 var app = builder.Build();
+
+builder.Services.AddHttpClient<IVillaServices,VillaServices>();
+builder.Services.AddScoped<IVillaServices, VillaServices>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

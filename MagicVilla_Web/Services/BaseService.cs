@@ -67,4 +67,4 @@ public class BaseService : IBaseService
             return APIResponse;
         }
     }
-}
+}   
