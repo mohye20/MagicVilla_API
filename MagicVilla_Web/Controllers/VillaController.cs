@@ -39,6 +39,34 @@ public class VillaController : Controller
         return View(model);
     }
 
+
+    public async Task<IActionResult> UpdateVilla(int villaId)
+    {
+        var response = await _villaServices.GetAsync<APIResponse>(villaId);
+        if (response is not null && response.IsSuccess)
+        {
+            VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
+            return View(_mapper.Map<VillaUpdateDTO>(model));
+        }
+
+        return NotFound();
+    }
+
+    public async Task<IActionResult> UpdateVilla(VillaUpdateDTO model)
+    {
+        if (ModelState.IsValid)
+        {
+            var response = await _villaServices.UpdateAsync<APIResponse>(model);
+            if (response is not null && response.IsSuccess)
+            {
+                return RedirectToAction(nameof(IndexVilla));
+            }
+        }
+
+        return View(model);
+    }
+
+
     // GET
     public async Task<IActionResult> IndexVilla()
     {
