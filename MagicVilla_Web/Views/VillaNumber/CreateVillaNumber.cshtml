@@ -1,0 +1,55 @@
+@model MagicVilla_Web.Models.VM.VillaNumberCreateVM
+
+
+<form asp-action="CreateVillaNumber" class="form-group">
+    <br/>
+    <div class="container border p-3 form-control">
+        <h1 class="text-primary">Create Villa</h1>
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-2">
+                <label asp-for="VillaNumber.VillaNo" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="VillaNumber.VillaNo" class="form-control"/>
+                <span asp-validation-for="VillaNumber.VillaNo" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-2">
+                <label asp-for="VillaNumber.VillaId" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+                <select asp-for="VillaNumber.VillaId" class="form-select" asp-items="@Model.VillaList">
+                    <option disabled selected>--Select Villa</option>
+
+                </select>
+                <span asp-validation-for="VillaNumber.VillaId" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label asp-for="VillaNumber.SpecialDetails" class="pt-2" style="font-size: 20px;"></label>
+            </div>
+            <div class="col-10">
+
+                <textarea asp-for="VillaNumber.SpecialDetails" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="VillaNumber.SpecialDetails" class="text-danger"></span>
+            </div>
+            
+
+            <div class="col-5 offset-2">
+                <a asp-action="IndexVilla" asp-controller="Villa" class="btn-primary btn form-control">Back To List</a>
+            </div>
+            <div class="col-5 offset-2">
+                <input type="submit" value="Create" class="btn-success btn form-control"/>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts
+
+{
+    <partial name="_ValidationScriptsPartial"/>
+}

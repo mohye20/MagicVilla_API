@@ -96,13 +96,13 @@ public class VillaNumberApiController : ControllerBase
         {
             if (await _dbVillaNumbers.GetAsync(U => U.VillaNo == villaNumberCreateDto.VillaNo) is not null)
             {
-                ModelState.AddModelError(string.Empty, "Villa number already exists");
+                ModelState.AddModelError("ErrorMessage", "Villa number already exists");
                 return BadRequest(ModelState);
             }
 
             if (await _dbVilla.GetAsync(U => U.Id == villaNumberCreateDto.VillaId) is null)
             {
-                ModelState.AddModelError(string.Empty,"Villa Id is Invalid!");
+                ModelState.AddModelError("ErrorMessage","Villa Id is Invalid!");
                 return BadRequest(ModelState);
             }
 
