@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient<IVillaServices, VillaServices>();
 builder.Services.AddScoped<IVillaServices, VillaServices>();
+builder.Services.AddHttpClient<IVillaNumberServices, VillaNumberServices>();
+builder.Services.AddScoped<IVillaNumberServices, VillaNumberServices>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
