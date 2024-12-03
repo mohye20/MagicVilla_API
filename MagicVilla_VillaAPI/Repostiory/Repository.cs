@@ -6,63 +6,83 @@ using System.Linq.Expressions;
 
 namespace MagicVilla_VillaAPI.Repostiory
 {
-	public class Repository<T> : IRepository<T> where T :class
-	{
-		internal DbSet<T> dbSet;
+    public class Repository<T> : IRepository<T> where T : class
+    {
+        internal DbSet<T> dbSet;
 
-		private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _db;
 
-		public Repository(ApplicationDbContext db)
-		{
-			_db = db;
-			this.dbSet = _db.Set<T>();
-		}
+        public Repository(ApplicationDbContext db)
+        {
+            _db = db;
+            // _db.VillaNumbers.Include(U => U.Villa).ToList();
+            this.dbSet = _db.Set<T>();
+        }
 
-		public async Task CreateAsync(T Entity)
-		{
-			await dbSet.AddAsync(Entity);
-			await SaveAsync();
-		}
+        public async Task CreateAsync(T Entity)
+        {
+            await dbSet.AddAsync(Entity);
+            await SaveAsync();
+        }
 
-		public async Task<T> GetAsync(Expression<Func<T, bool>> Filter = null, bool Tracked = true)
-		{
-			IQueryable<T> Query = dbSet;
-			if (!Tracked)
-			{
-				Query = Query.AsNoTracking();
-			}
+        public async Task<T> GetAsync(Expression<Func<T, bool>> Filter = null, bool Tracked = true,
+            string? includeProperties = null)
+        {
+            IQueryable<T> Query = dbSet;
+            if (!Tracked)
+            {
+                Query = Query.AsNoTracking();
+            }
 
-			if (Filter is not null)
-			{
-				Query = Query.Where(Filter);
-			}
+            if (Filter is not null)
+            {
+                Query = Query.Where(Filter);
+            }
 
-			return await Query.FirstOrDefaultAsync();
-		}
+            if (includeProperties is not null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' },
+                             StringSplitOptions.RemoveEmptyEntries))
+                {
+                    Query = Query.Include(includeProp);
+                }
+            }
 
-		public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> ?Filter = null)
-		{
-			IQueryable<T> query = dbSet;
-			if (Filter is not null)
-			{
-				query = query.Where(Filter);
-			}
+            return await Query.FirstOrDefaultAsync();
+        }
 
-			return await query.ToListAsync();
-		}
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? Filter = null,
+            string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            if (Filter is not null)
+            {
+                query = query.Where(Filter);
+            }
 
-		public async Task RemoveAsync(T Entity)
-		{
-			dbSet.Remove(Entity);
-			await SaveAsync();
-		}
+            if (includeProperties is not null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' },
+                             StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
 
-		public async Task SaveAsync()
-		{
-			await _db.SaveChangesAsync();
-		}
+                ;
+            }
 
-		
-	}
+            return await query.ToListAsync();
+        }
+
+        public async Task RemoveAsync(T Entity)
+        {
+            dbSet.Remove(Entity);
+            await SaveAsync();
+        }
+
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
+        }
+    }
 }
-
