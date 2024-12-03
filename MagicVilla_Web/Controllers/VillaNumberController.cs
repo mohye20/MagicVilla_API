@@ -64,6 +64,14 @@ public class VillaNumberController : Controller
             {
                 return RedirectToAction(nameof(IndexVillaNumber));
             }
+
+            else
+            {
+                if (response.ErrorMessage.Count() > 0)
+                {
+                    ModelState.AddModelError("ErrorMessages", response.ErrorMessage.FirstOrDefault());
+                }
+            }
         }
 
         var respo = await _villaServices.GetAllAsync<APIResponse>();
