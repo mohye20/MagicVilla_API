@@ -32,9 +32,12 @@ public class VillaController : Controller
             var reponse = await _villaServices.CreateAsync<APIResponse>(model);
             if (reponse is not null && reponse.IsSuccess)
             {
+                TempData["success"] = "Villa Created Successfully";
                 return RedirectToAction(nameof(IndexVilla));
             }
         }
+        
+        TempData["Error"] = "Villa Not Created";
 
         return View(model);
     }
@@ -58,12 +61,16 @@ public class VillaController : Controller
     {
         if (ModelState.IsValid)
         {
+                TempData["success"] = "Villa Updated Successfully";
             var response = await _villaServices.UpdateAsync<APIResponse>(model);
             if (response is not null && response.IsSuccess)
             {
+
                 return RedirectToAction(nameof(IndexVilla));
             }
         }
+        
+        TempData["Error"] = "Villa Not Updated";
 
         return View(model);
     }
@@ -85,13 +92,14 @@ public class VillaController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteVilla(VillaDTO model)
     {
-        
-            var response = await _villaServices.DeleteAsync<APIResponse>(model.Id);
-            if (response is not null && response.IsSuccess)
-            {
-                return RedirectToAction(nameof(IndexVilla));
-            }
-        
+        var response = await _villaServices.DeleteAsync<APIResponse>(model.Id);
+        if (response is not null && response.IsSuccess)
+        {
+            TempData["success"] = "Villa Deleted Successfully";
+            return RedirectToAction(nameof(IndexVilla));
+        }
+        TempData["Error"] = "Villa Not Deleted";
+
 
         return View(model);
     }
