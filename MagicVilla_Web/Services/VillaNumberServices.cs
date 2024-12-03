@@ -51,7 +51,7 @@ public class VillaNumberServices : BaseService, IVillaNumberServices
         {
             ApiType = SD.ApiType.PUT,
             Data = Entity,
-            Url = VillaUrl + "/api/villaNumberAPI" + Entity.VillaNo
+            Url = VillaUrl + "/api/villaNumberAPI/" + Entity.VillaNo
         });
     }
 
@@ -60,7 +60,7 @@ public class VillaNumberServices : BaseService, IVillaNumberServices
        return SendAsync<T>(new APIRequest()
         {
             ApiType = SD.ApiType.DELETE,
-            Url = VillaUrl + "/api/villaNumberAPI" + Id
+            Url = VillaUrl + "/api/villaNumberAPI/" + Id
         });
     }
 }

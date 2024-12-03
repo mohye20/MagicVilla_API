@@ -89,10 +89,10 @@ public class VillaNumberController : Controller
         return View(model);
     }
 
-    public async Task<IActionResult> UpdateVillaNumber(int VillaNumberId)
+    public async Task<IActionResult> UpdateVillaNumber(int VillaNo)
     {
         VillaNumberUpdateVM villaNumberUpdateVm = new();
-        var response = await _villaNumberServices.GetAsync<APIResponse>(VillaNumberId);
+        var response = await _villaNumberServices.GetAsync<APIResponse>(VillaNo);
         if (response is not null && response.IsSuccess)
         {
             VillaNumberDTO model = JsonConvert.DeserializeObject<VillaNumberDTO>(Convert.ToString(response.Result));
@@ -151,10 +151,10 @@ public class VillaNumberController : Controller
         return View(model);
     }
 
-    public async Task<IActionResult> DeleteVillaNumber(int VillaNumberId)
+    public async Task<IActionResult> DeleteVillaNumber(int VillaNo)
     {
         VillaNumberDeleteVM villaNumberDeleteVM = new();
-        var response = await _villaNumberServices.GetAsync<APIResponse>(VillaNumberId);
+        var response = await _villaNumberServices.GetAsync<APIResponse>(VillaNo);
         if (response is not null && response.IsSuccess)
         {
             VillaNumberDTO model = JsonConvert.DeserializeObject<VillaNumberDTO>(Convert.ToString(response.Result));
@@ -179,6 +179,8 @@ public class VillaNumberController : Controller
     }
 
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteVillaNumber(VillaNumberDeleteVM model)
     {
         var response = await _villaNumberServices.DeleteAsync<APIResponse>(model.VillaNumber.VillaNo);
