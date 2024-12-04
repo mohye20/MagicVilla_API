@@ -8,13 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient<IVillaServices, VillaServices>();
 builder.Services.AddScoped<IVillaServices, VillaServices>();
+
 builder.Services.AddHttpClient<IVillaNumberServices, VillaNumberServices>();
 builder.Services.AddScoped<IVillaNumberServices, VillaNumberServices>();
 
+builder.Services.AddHttpClient<IAuthServices, AuthServices>();
+builder.Services.AddScoped<IAuthServices, AuthServices>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-var app = builder.Build();
 
+var app = builder.Build();
 
 
 // Configure the HTTP request pipeline.
