@@ -1,4 +1,5 @@
 using AutoMapper;
+using MagicVilla_Utility;
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dto;
 using MagicVilla_Web.Services.IServices;
@@ -31,7 +32,7 @@ public class VillaController : Controller
     {
         if (ModelState.IsValid)
         {
-            var reponse = await _villaServices.CreateAsync<APIResponse>(model);
+            var reponse = await _villaServices.CreateAsync<APIResponse>(model,HttpContext.Session.GetString(SD.SesionToken));
             if (reponse is not null && reponse.IsSuccess)
             {
                 TempData["success"] = "Villa Created Successfully";
@@ -48,7 +49,7 @@ public class VillaController : Controller
 
     public async Task<IActionResult> UpdateVilla(int villaId)
     {
-        var response = await _villaServices.GetAsync<APIResponse>(villaId);
+        var response = await _villaServices.GetAsync<APIResponse>(villaId,HttpContext.Session.GetString(SD.SesionToken));
         if (response is not null && response.IsSuccess)
         {
             VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
@@ -67,7 +68,7 @@ public class VillaController : Controller
         if (ModelState.IsValid)
         {
                 TempData["success"] = "Villa Updated Successfully";
-            var response = await _villaServices.UpdateAsync<APIResponse>(model);
+            var response = await _villaServices.UpdateAsync<APIResponse>(model,HttpContext.Session.GetString(SD.SesionToken));
             if (response is not null && response.IsSuccess)
             {
 
@@ -84,7 +85,7 @@ public class VillaController : Controller
 
     public async Task<IActionResult> DeleteVilla(int VillaId)
     {
-        var response = await _villaServices.GetAsync<APIResponse>(VillaId);
+        var response = await _villaServices.GetAsync<APIResponse>(VillaId,HttpContext.Session.GetString(SD.SesionToken));
         if (response is not null && response.IsSuccess)
         {
             var model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
@@ -99,7 +100,7 @@ public class VillaController : Controller
     [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteVilla(VillaDTO model)
     {
-        var response = await _villaServices.DeleteAsync<APIResponse>(model.Id);
+        var response = await _villaServices.DeleteAsync<APIResponse>(model.Id,HttpContext.Session.GetString(SD.SesionToken));
         if (response is not null && response.IsSuccess)
         {
             TempData["success"] = "Villa Deleted Successfully";
@@ -115,7 +116,7 @@ public class VillaController : Controller
     public async Task<IActionResult> IndexVilla()
     {
         List<VillaDTO> list = new();
-        var response = await _villaServices.GetAllAsync<APIResponse>();
+        var response = await _villaServices.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SesionToken));
         if (response is not null && response.IsSuccess)
         {
             list = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));

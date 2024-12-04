@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using MagicVilla_Utility;
 using Microsoft.AspNetCore.Mvc;
 using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.Dto;
@@ -20,7 +21,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         List<VillaDTO> list = new();
-        var response = await _villaServices.GetAllAsync<APIResponse>();
+        var response = await _villaServices.GetAllAsync<APIResponse>(HttpContext.Session.GetString(SD.SesionToken));
 
         if (response is not null && response.IsSuccess)
         {

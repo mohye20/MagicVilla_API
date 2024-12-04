@@ -3,6 +3,7 @@ using AutoMapper;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using MagicVilla_VillaAPI.Repostiory.IRepostiory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -87,6 +88,7 @@ public class VillaNumberApiController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "admin")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -131,6 +133,8 @@ public class VillaNumberApiController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{id:int}", Name = "DeleteVillaNumber")]
+    [Authorize(Roles = "admin")]
+
     public async Task<ActionResult<APIResponse>> DeleteVillaNumber(int id)
     {
         try
@@ -164,6 +168,8 @@ public class VillaNumberApiController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id:int}", Name = "UpdateVillaNumber")]
+    [Authorize(Roles = "admin")]
+
     public async Task<ActionResult<APIResponse>> UpdatevillaNumber(int id,
         [FromBody] VillaNumberUpdateDTO villaNumberUpdateDto)
     {

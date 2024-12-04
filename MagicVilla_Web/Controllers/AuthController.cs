@@ -39,7 +39,6 @@ public class AuthController : Controller
             identity.AddClaim(new Claim(ClaimTypes.Role, model.User.Role));
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            
             HttpContext.Session.SetString(SD.SesionToken, model.Token);
             return RedirectToAction("Index", "Home");
         }
