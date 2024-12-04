@@ -13,9 +13,11 @@ public class UserRepository : IUserRepository
     {
         _db = db;
     }
+
     public bool IsUnique(string username)
     {
-        throw new NotImplementedException();
+        var user = _db.LocalUsers.FirstOrDefault(x => x.Username == username);
+        return user is null ? true : false;
     }
 
     public Task<LoginRequestDTO> Login(LoginRequestDTO loginRequestDTO)
@@ -23,8 +25,18 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<LocalUser> Register(RegistertionRequestDTO registertionRequestDTO)
+    public async Task<LocalUser> Register(RegistertionRequestDTO registertionRequestDTO)
     {
-        throw new NotImplementedException();
+        LocalUser user = new()
+        {
+            Username = registertionRequestDTO.UserName,
+            Name = registertionRequestDTO.Name,
+            Role = registertionRequestDTO.Role,
+            Password = registertionRequestDTO.Password
+        };
+        await _db.LocalUsers.AddAsync(user);
+        await _db.SaveChangesAsync();
+        user.Password = "";
+        return user;
     }
 }
