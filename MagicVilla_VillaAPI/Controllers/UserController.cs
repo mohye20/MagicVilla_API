@@ -38,6 +38,7 @@ public class UserController : Controller
     }
 
 
+    [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] RegistertionRequestDTO model)
     {
         bool ifUserNameUnique = _userRepository.IsUnique(model.UserName);
