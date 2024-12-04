@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaRepository, VillaRepostiory>();
 builder.Services.AddScoped<IVillaNumbersRepository, VillaNumbersRepository>();
 builder.Services.AddScoped<APIResponse>();

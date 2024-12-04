@@ -33,7 +33,11 @@ public class UserRepository : IUserRepository
 
         if (user is null)
         {
-            return null;
+            return new LoginResponseDTO()
+            {
+                Token = "",
+                User = null,
+            };
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
