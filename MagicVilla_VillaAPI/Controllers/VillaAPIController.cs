@@ -12,8 +12,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
-    [Route("api/VillaAPI")]
+    [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     public class VillaAPIController : ControllerBase
     {
         private readonly IVillaRepository _dbVilla;
@@ -46,6 +48,14 @@ namespace MagicVilla_VillaAPI.Controllers
             return APiResponse;
         }
 
+        [MapToApiVersion("2.0")]
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "1", "2" };
+        }
+
+        [MapToApiVersion("1.0")]
         [HttpGet("{Id}", Name = "GetVilla")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
